@@ -1,18 +1,16 @@
 import adapter.Adapter;
 import adapter.IRomanianSnuff;
-import adapter.RomanianSnuff;
 import adapter.USASnuff;
-import builder.PizzaBuilder;
-import facade.Facade;
-import facade.GeneralHello;
 import observer.Observer;
 import observer.ObserverImpl;
 import observer.Subject;
 import observer.SubjectImpl;
-import prototype.Pizza;
-import prototype.Prototype;
 import proxy.Proxy;
 import proxy.RealSubject;
+import strategy.*;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
 
@@ -46,11 +44,11 @@ public class Main {
 
 
         //Prototype
-        Pizza pizza = new Pizza("Margharita", 45, true);
-        Prototype clonedPizza = pizza.makeClone();
-
-        System.out.println(pizza);
-        System.out.println(clonedPizza);
+//        Pizza pizza = new Pizza("Margharita", 45, true);
+//        Prototype clonedPizza = pizza.makeClone();
+//
+//        System.out.println(pizza);
+//        System.out.println(clonedPizza);
 
         //Adapter
         USASnuff usaSnuff = new Adapter();
@@ -58,5 +56,35 @@ public class Main {
 
         IRomanianSnuff romanianSnuff = new Adapter();
         romanianSnuff.plugInRomanianSnuff();
+
+        //Strategy
+        Pizza pizza = new Pizza("SeafoddPizza", 25);
+        Payment cashPayment = new Cash();
+        try {
+            cashPayment.pay(pizza.getPrice());
+            cashPayment.pay(pizza.getPrice());
+            cashPayment.pay(pizza.getPrice());
+            cashPayment.pay(pizza.getPrice());
+            cashPayment.pay(pizza.getPrice());
+            System.out.println("You have payed for the pizza");
+        } catch (NotEnoughMoneyException e) {
+            e.printStackTrace();
+        } catch (CardExpiredException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Date expireDate =  cal.getTime();
+        System.out.println(expireDate);
+
+        Payment cardPayment = new CreditCard("Stefan Cernescu", "123123123", 555, expireDate);
+        try{
+            cardPayment.pay(pizza.getPrice());
+        } catch (CardExpiredException e) {
+            e.printStackTrace();
+        } catch (NotEnoughMoneyException e) {
+            e.printStackTrace();
+        }
     }
 }
