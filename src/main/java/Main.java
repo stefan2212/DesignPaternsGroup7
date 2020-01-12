@@ -1,3 +1,7 @@
+import adapter.Adapter;
+import adapter.IRomanianSnuff;
+import adapter.RomanianSnuff;
+import adapter.USASnuff;
 import builder.PizzaBuilder;
 import facade.Facade;
 import facade.GeneralHello;
@@ -47,5 +51,12 @@ public class Main {
 
         System.out.println(pizza);
         System.out.println(clonedPizza);
+
+        //Adapter
+        USASnuff usaSnuff = new Adapter();
+        usaSnuff.plugInUsaSocket();
+
+        IRomanianSnuff romanianSnuff = new Adapter();
+        romanianSnuff.plugInRomanianSnuff();
     }
 }
