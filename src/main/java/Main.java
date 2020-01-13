@@ -8,6 +8,10 @@ import observer.SubjectImpl;
 import proxy.Proxy;
 import proxy.RealSubject;
 import strategy.*;
+import visitor.Car;
+import visitor.Item;
+import visitor.ShoppingCart;
+import visitor.ShoppingCartImpl;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -86,5 +90,9 @@ public class Main {
         } catch (NotEnoughMoneyException e) {
             e.printStackTrace();
         }
+
+        ShoppingCart shoppingCart = new ShoppingCartImpl();
+        Item car = new Car("BMW", "black", 5000);
+        System.out.println(car.accept(shoppingCart));
     }
 }
